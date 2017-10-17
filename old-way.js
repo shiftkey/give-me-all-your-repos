@@ -1,13 +1,6 @@
-const GitHubApi = require("github");
 const Promise = require("bluebird");
-const github = new GitHubApi({
-  Promise: Promise
-});
 
-github.authenticate({
-  type: "token",
-  token: process.env.GITHUB_TOKEN
-});
+const { github, traceScopes } = require("./setup");
 
 const orgsReposMap = new Map();
 
@@ -54,6 +47,12 @@ function enumerateRepositories() {
     }
 
     github.repos.getAll({ per_page: 100, visibility: "public" }, function(err, res) {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      traceScopes(res);
       appendToSet(err, res);
     });
   });

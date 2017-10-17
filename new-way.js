@@ -1,13 +1,6 @@
-const GitHubApi = require("github");
 const Promise = require("bluebird");
-const github = new GitHubApi({
-  Promise: Promise
-});
 
-github.authenticate({
-  type: "token",
-  token: process.env.GITHUB_TOKEN
-});
+const { github, traceScopes } = require("./setup");
 
 function enumerateOrgs() {
   return new Promise((resolve, reject) => {
@@ -33,6 +26,12 @@ function enumerateOrgs() {
     }
 
     github.users.getOrgs({ per_page: 100 }, function(err, res) {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      traceScopes(res);
       appendOrgs(err, res);
     });
   });
