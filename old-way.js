@@ -22,6 +22,17 @@ function enumerateRepositories() {
       for (const repo of res.data) {
         const login = repo.owner.login;
 
+        // skip repository if owner is not an organization
+        if (repo.owner.type === "User") {
+          continue;
+        }
+
+        // skip repository if you don't have push permissions
+        const permissions = repo.permissions;
+        if (!permissions.push) {
+          continue;
+        }
+
         let existing = null;
         if (orgsReposMap.has(login)) {
           existing = orgsReposMap.get(login);
@@ -29,10 +40,7 @@ function enumerateRepositories() {
           existing = [];
         }
 
-        const permissions = repo.permissions;
-        if (permissions.push) {
-          existing.push(repo);
-        }
+        existing.push(repo);
         orgsReposMap.set(login, existing);
       }
 

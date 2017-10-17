@@ -19,9 +19,11 @@ GITHUB_TOKEN=[your-token-here] npm run new-way
 
 ## How does this work?
 
-Put simply, it goes through these steps:
+The old way, using `/user/repos`, will run through a list of all repositories you have access to. This includes repositories you own, repositories you have access to as a collaborator, and repositories you have ownership of under an organization.
+
+The new way uses `/user/orgs` and works back from there:
 
  - which organizations is the user a member of?
- - which public repositories are associated with this organization?
+ - which public repositories belong to this organization?
  - gather up a list of all repositories in this organization which are `permissions.push: true`
 
