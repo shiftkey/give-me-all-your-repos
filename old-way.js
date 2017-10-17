@@ -53,7 +53,7 @@ function enumerateRepositories() {
       }
     }
 
-    github.repos.getAll({ per_page: 100 }, function(err, res) {
+    github.repos.getAll({ per_page: 100, visibility: "public" }, function(err, res) {
       appendToSet(err, res);
     });
   });

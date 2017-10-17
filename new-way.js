@@ -73,7 +73,7 @@ function enumerateRepositories(login) {
       }
     }
 
-    github.repos.getForOrg({ org: login, per_page: 100 }, function(err, res) {
+    github.repos.getForOrg({ org: login, per_page: 100, visibility: "public" }, function(err, res) {
       appendToSet(login, err, res);
     });
   });
