@@ -95,6 +95,9 @@ enumerateOrgs()
       const repos = orgsReposMap.get(key);
       if (repos.length) {
         console.log(`Can push to ${repos.length} public repos on the ${key} org`);
+        repos.forEach(function(repo) {
+          console.log(` - ${repo.name}`);
+        });
       }
     }
   });
