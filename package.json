@@ -2,9 +2,9 @@
   "name": "give-me-all-your-repos",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "old-way": "node old-way.js",
+    "new-way": "node new-way.js"
   },
   "keywords": [],
   "author": "",
