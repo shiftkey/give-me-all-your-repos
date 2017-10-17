@@ -11,7 +11,6 @@ github.authenticate({
 
 function traceScopes(res) {
   const meta = res.meta;
-  console.log(`headers: ${JSON.stringify(meta)}`);
   const scopes = meta["x-oauth-scopes"];
   if (scopes) {
     console.log(`using scopes: ${scopes}`);
