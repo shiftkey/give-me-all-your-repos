@@ -9,6 +9,35 @@ github.authenticate({
   token: process.env.GITHUB_TOKEN
 });
 
+function enumerateOrgs() {
+  return new Promise((resolve, reject) => {
+    const orgs = [];
+
+    function appendOrgs(err, res) {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      for (const org of res.data) {
+        orgs.push(org);
+      }
+
+      if (github.hasNextPage(res)) {
+        github.getNextPage(res, function(err, res) {
+          appendOrgs(err, res);
+        });
+      } else {
+        resolve(orgs);
+      }
+    }
+
+    github.users.getOrgs({ per_page: 100 }, function(err, res) {
+      appendOrgs(err, res);
+    });
+  });
+}
+
 const orgsReposMap = new Map();
 
 function enumerateRepositories(login) {
@@ -50,20 +79,8 @@ function enumerateRepositories(login) {
   });
 }
 
-github.users
-  .getOrgs({ per_page: 100 })
-  .then(function(res) {
-    const data = res.data;
-
-    const orgs = [];
-
-    for (let i = 0; i <= data.length; i++) {
-      const org = data[i];
-      if (typeof org !== "undefined") {
-        orgs.push(org);
-      }
-    }
-
+enumerateOrgs()
+  .then(function(orgs) {
     const promises = [];
 
     for (const org of orgs) {
