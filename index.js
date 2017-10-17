@@ -9,7 +9,6 @@ github.authenticate({
   token: process.env.GITHUB_TOKEN
 });
 
-// this is a lookup by organization key
 const orgsReposMap = new Map();
 
 function enumerateRepositories(login) {
